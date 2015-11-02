@@ -10,8 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebResourceResponse;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 import java.io.IOException;
@@ -20,23 +18,15 @@ import java.io.InputStream;
 public class XWalkViewActivity extends Activity {
     private final String TAG = "poc";
 
-    /**
-     * Choose between XWalkView / platform WebView.
-     *
-     * N.B. If the platform WebView appears as white, you'll need to scroll it with finger.
-     * Platform WebView doesn't zoom out by default like XWalkView does.
-     */
-    private final static boolean IS_XWALK = true;
-
     private final static boolean IS_TEXTURE_VIEW_ENABLED = true;
 
     private final static String TARGET_URL = "http://localhost/parent.html";
 
-    private final static int HOW_MANY = 5;
+    private final static int HOW_MANY = 3;
 
     private final static int WIDTH = 1000;
     private final static int HEIGHT = 1000;
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,34 +39,12 @@ public class XWalkViewActivity extends Activity {
 
         RelativeLayout root = new RelativeLayout(this);
 
-        if (IS_XWALK) {
-            loadXWalkViews(root);
-        } else {
-            loadPlatformWebViews(root);
-        }
+        loadXWalkViews(root);
 
         setContentView(root);
 
-
     }
 
-    /**
-     * With platform webviews you will need to scroll with finger inside the window
-     * if the window appears as white (it doesn't zoom out by default like XWalkView does).
-     */
-    private void loadPlatformWebViews(RelativeLayout root) {
-        WebViewClient webViewClient = new WebViewClient();
-
-        for (int i = 0; i < HOW_MANY; i++) {
-            WebView webView = new WebView(this);
-            webView.setX(getX(i));
-            webView.setY(getY(i));
-            webView.setWebViewClient(webViewClient);
-            webView.loadUrl(TARGET_URL);
-
-            root.addView(webView, WIDTH, HEIGHT);
-        }
-    }
 
     private void loadXWalkViews(RelativeLayout root) {
         for (int i = 0; i < HOW_MANY; i++) {
